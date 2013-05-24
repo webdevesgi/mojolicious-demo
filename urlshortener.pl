@@ -88,14 +88,32 @@ __DATA__
 # Layout
 @@ layouts/default.html.ep
 <!doctype html><html>
-    <head><title>Url Shortener</title></head>
-    <body><%= content %></body>
+    <head><title><%= title %></title>
+    <link href="http://bootswatch.com/cosmo/bootstrap.min.css" media="screen" rel="stylesheet" />
+    </head>
+    <body><div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+     <div class="container">
+       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </a>
+       <a class="brand" href="/">Url Shortener</a>
+       <div class="nav-collapse collapse" id="main-menu">
+        <ul class="nav" id="main-menu-left">
+          <li><a href="/">News</a></li>
+        </ul>
+       </div>
+     </div>
+   </div>
+ </div><div id="content"><%= content %></div></body>
 </html>
 
 @@ index.html.ep
 % layout 'default';
+% title 'Acceuil';
 <%= form_for sendurl => (method => 'post') => begin %>
-    <h1><a href="/">Url Shortener</a></h1>
     <p>URL :
     <%= text_field 'orig_url' %>
     <%= submit_button 'Raccourcir' %>
@@ -104,6 +122,7 @@ __DATA__
 
 @@ confirm.html.ep
 % layout 'default';
+% title 'Confirmation';
 <h1><a href="/">shorturl.local</a></h1>
 <p>Votre adresse a ete enregistree</p><br>
 <% if ($port == 80) { %>
@@ -111,5 +130,4 @@ __DATA__
 <%} else { %>
     <p>URL courte : <a href="http://<%=$host%>:<%=$port%>/<%=$shortened%>">http://<%=$host%>:<%=$port%>/<%=$shortened%></a></p><br>
 <% } %>
-
-<a href="/">retour</a>
+<a href="/">retour</a> 
