@@ -1,3 +1,1 @@
-pylons-demo
-===========
-coucou
+#Mojolicious Demo
