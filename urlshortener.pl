@@ -5,6 +5,7 @@ use MIME::Base64;
 
 # Fonctions
 # ---------------------------
+# Enregistre l'url dans fichier urls
 sub store_url{
     my ($url_orig) = @_;
     chomp $url_orig;
@@ -19,6 +20,26 @@ sub store_url{
     return $short_url;
 }
 
+# Récupère l'url dans fichier urls
+sub get_url{
+    my ($short_url) = @_;
+    my $self = shift;
+
+    open(FILE, "urls.txt") || die;
+
+    # Lecture non bloquante
+    flock(FILE, 4);
+    while(<FILE>){
+        if ($_ =~ /$short_url/){
+            my @url_line = split(/\|/,$_);
+            return decode_base64($url_line[1]);
+        }
+    }
+    close(FILE);
+    # Url non trouvee, retourne -1
+    return -1;
+}
+
 # Controllers
 # ---------------------------
 # Home
@@ -30,7 +51,6 @@ get '/' => sub {
 # Post
 post '/sendurl' => sub {
     my $self = shift;
-    print($self);
 
     # Si c'est bien une URL
     my $url =  Mojo::URL->new($self->param('orig_url'));
@@ -43,6 +63,19 @@ post '/sendurl' => sub {
 
     # retourne les valeurs
     return $self->render('confirm', shortened => $short_url, host => $self->req->url->base->host, port => $self->req->url->base->port);
+};
+
+# Urlshortener
+get '/:shorturl' => ([shorturl => qr/\![a-f0-9]{8}/]) => sub {
+    my $self = shift;
+
+    my $redirect_url = get_url($self->param('shorturl'));
+    if($redirect_url == "-1"){
+        return $self->redirect_to('index');
+    }else{
+         return $self->redirect_to($redirect_url);
+    }
+
 };
 
 # Lancement
@@ -64,7 +97,7 @@ __DATA__
 <%= form_for sendurl => (method => 'post') => begin %>
     <h1><a href="/">Url Shortener</a></h1>
     <p>URL :
-    <%= text_field 'orig_url' %> 
+    <%= text_field 'orig_url' %>
     <%= submit_button 'Raccourcir' %>
     </p>
 <% end %>
