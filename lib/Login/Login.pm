@@ -1,16 +1,8 @@
 package Login::Login;
 use Mojo::Base 'Mojolicious::Controller';
-use DBI;
-
 
 sub index {
   my $self = shift;
-
-  # mysql connect
-  my $database = 'mojolicious';
-  my $user = 'root';
-  my $password = 'dtr5sy6x';
-  my $dbh = DBI->connect("DBI:mysql:$database", $user, $password);
 
   my $user = $self->param('user') || '';
   my $pass = $self->param('pass') || '';
