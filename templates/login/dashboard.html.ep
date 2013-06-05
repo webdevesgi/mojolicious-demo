@@ -1,0 +1,8 @@
+% layout 'default';
+<hr/>
+% if (my $msg = flash 'message') {
+  <b><%= $msg %></b><br>
+% }
+Bienvenue <%= session 'user' %>. (<%= link_to 'Se déconnecter' => 'logout' %>)
+
+

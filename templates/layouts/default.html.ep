@@ -1,5 +1,17 @@
 <!DOCTYPE html>
 <html>
-  <head><title>Login Manager</title></head>
-  <body><%= content %></body>
+  <link href="http://bootswatch.com/cosmo/bootstrap.min.css" rel="stylesheet">
+  <link href="http://bootswatch.com/css/bootswatch.css" rel="stylesheet">
+  <head><title>Url shortener</title></head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="span12">
+          <h1>Url shortener</h1>
+          <p>Created with Mojolicious</p>
+          <%= content %>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

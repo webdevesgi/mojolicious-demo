@@ -9,8 +9,8 @@ sub index {
   return $self->render unless $self->users->check($user, $pass);
 
   $self->session(user => $user);
-  $self->flash(message => 'Thanks for logging in.');
-  $self->redirect_to('protected');
+  $self->flash(message => 'Vous êtes maintenant connecté.');
+  $self->redirect_to('dashboard');
 }
 
 sub logged_in {
