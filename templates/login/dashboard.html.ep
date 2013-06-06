@@ -3,6 +3,16 @@
 % if (my $msg = flash 'message') {
   <b><%= $msg %></b><br>
 % }
-Bienvenue <%= session 'user' %>. (<%= link_to 'Se déconnecter' => 'logout' %>)
-
-
+Bienvenue <%= session 'user' %>. (<%= link_to 'Se déconnecter' => 'logout' %>)<br/><br/>
+<ul>
+  % foreach my $url (keys %$urls) {
+      <li><%= $urls->{$url}->{'url_origin'} %> - http://localhost:3000/!<%= $urls->{$url}->{'url_short'} %> (<%= $urls->{$url}->{'clics'} %> clics)</li>
+  % }
+</ul>
+<br/>
+<%= form_for sendurl => (method => 'post', class => 'well form-search') => begin %>
+    <p>Raccourcir une url :
+    <%= text_field 'orig_url', class => 'input-xlarge' %>
+    <%= submit_button 'GO', class => 'btn btn-warning' %>
+    </p>
+<% end %>

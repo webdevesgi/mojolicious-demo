@@ -1,7 +1,6 @@
 package MyUsers;
 
 use Connexion;
-use strict;
 use warnings;
 
 sub new { bless {}, shift }

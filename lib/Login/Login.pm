@@ -1,5 +1,7 @@
 package Login::Login;
 use Mojo::Base 'Mojolicious::Controller';
+use Data::Dumper;
+use MIME::Base64;
 
 sub index {
   my $self = shift;
@@ -15,13 +17,43 @@ sub index {
 
 sub logged_in {
   my $self = shift;
-  return $self->session('user') || !$self->redirect_to('index');
+
+  $self->stash(
+      urls => $self->urls->getUrls($self->session('user'))
+    );
+  return $self || !$self->redirect_to('index');
+}
+
+# Post
+sub sendurl{
+  my $self = shift;
+
+  # Si c'est bien une URL
+  my $url =  Mojo::URL->new($self->param('orig_url'));
+  if(!$url->is_abs){
+    return $self->redirect_to('dashboard');
+  }
+  # Retoune url raccourcie
+  my $short_url = encodeurl($self->param('orig_url'));
+
+  $self->urls->addUrl($self->session('user'), $self->param('orig_url'), $short_url);
+  return $self->redirect_to('dashboard');
 }
 
 sub logout {
   my $self = shift;
   $self->session(expires => 1);
   $self->redirect_to('index');
+}
+
+sub encodeurl{
+    my ($url_orig) = @_;
+    chomp $url_orig;
+    my $b64_url = encode_base64($url_orig, "");
+
+    my $short_url = "!".sprintf("%x",time);
+
+    return $short_url;
 }
 
 1;
