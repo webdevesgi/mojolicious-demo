@@ -38,4 +38,34 @@ sub addUrl {
   $t->execute();
 }
 
+sub checkUrl{
+  my ($self, $url) = @_;
+  my $z;
+
+  my $dbh = Connexion->new();
+
+  my $t = $dbh->prepare("SELECT url_origin FROM urls WHERE url_short = '$url' ");
+  $t->execute();
+
+  $z = $t -> fetchrow();
+
+  return $z;
+
+  if($z != ''){
+    return $z;
+  }else{
+    return undef;
+  }
+}
+
+sub updateClics{
+  my ($self, $url) = @_;
+  my $z;
+
+  my $dbh = Connexion->new();
+
+  my $t = $dbh->prepare("UPDATE urls SET clics = clics +1 WHERE url_short = '$url' ");
+  $t->execute();
+}
+
 1;

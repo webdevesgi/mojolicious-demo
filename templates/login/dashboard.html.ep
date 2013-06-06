@@ -6,7 +6,7 @@
 Bienvenue <%= session 'user' %>. (<%= link_to 'Se déconnecter' => 'logout' %>)<br/><br/>
 <ul>
   % foreach my $url (keys %$urls) {
-      <li><%= $urls->{$url}->{'url_origin'} %> - http://localhost:3000/!<%= $urls->{$url}->{'url_short'} %> (<%= $urls->{$url}->{'clics'} %> clics)</li>
+      <li><%= $urls->{$url}->{'url_origin'} %> - <a target="blank" href="http://localhost:3000/l/<%= $urls->{$url}->{'url_short'} %>">!<%= $urls->{$url}->{'url_short'} %></a> (<%= $urls->{$url}->{'clics'} %> clics)</li>
   % }
 </ul>
 <br/>

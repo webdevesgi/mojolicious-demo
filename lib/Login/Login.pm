@@ -56,4 +56,17 @@ sub encodeurl{
     return $short_url;
 }
 
+sub decode {
+  my $self = shift;
+
+  my $origin_url = $self->urls->checkUrl($self->param('id'));
+  print Dumper $origin_url;
+  return $self->redirect_to('index') unless $origin_url;
+
+
+  $self->urls->updateClics($self->param('id'));
+  $self->redirect_to($origin_url);
+
+}
+
 1;

@@ -13,6 +13,8 @@ sub startup {
 
   my $r = $self->routes;
 
+  $r->get('/l/:id')->to('login#decode');
+
   $r->any('/')->to('login#index')->name('index');
 
   my $logged_in = $r->under->to('login#logged_in');
