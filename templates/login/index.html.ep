@@ -11,4 +11,6 @@
     <br/>
     %= submit_button 'Connexion', class => 'btn btn-info'
   % end
+  <br/><br/>
+  <a href="/register">S'enregistrer</a>
 

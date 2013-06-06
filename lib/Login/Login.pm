@@ -60,12 +60,45 @@ sub decode {
   my $self = shift;
 
   my $origin_url = $self->urls->checkUrl($self->param('id'));
-  print Dumper $origin_url;
-  return $self->redirect_to('index') unless $origin_url;
 
+  return $self->redirect_to('index') unless $origin_url;
 
   $self->urls->updateClics($self->param('id'));
   $self->redirect_to($origin_url);
+
+}
+
+sub register{
+  my $self = shift;
+  my $msg;
+
+  my $user = $self->param('login_ins') || '';
+  my $pass = $self->param('pass_ins') || '';
+  my $pass1 = $self->param('pass1') || '';
+
+  if(length($user) < 4){
+    $msg = 'Le login doit contenir au moins 4 caractères.';
+  }else{
+    my $check = $self->users->exist($user);
+    if($check == 1){
+      $msg = 'Ce login existe déjà';
+    }else{
+      if(length($pass) < 4){
+        $msg = 'Le mot de passe doit contenir au moins 4 caractères.';
+      }else{
+        if($pass eq $pass1){
+          $self->users->createUser($user, $pass);
+          $self->redirect_to('registered');
+        }else{
+          $msg = 'Mot de passe différent';
+        }
+      }
+    }
+  }
+
+  $self->stash(
+      message => $msg
+  );
 
 }
 

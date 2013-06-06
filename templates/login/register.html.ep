@@ -1,0 +1,16 @@
+% layout 'default';
+%= form_for register => (method => 'post') => begin
+  <b><%= $message %></b><br>
+    <br/>
+    <br/>
+    %= text_field 'login_ins', placeholder => 'Login'
+    <br/>
+    %= password_field 'pass_ins', placeholder => 'Password'
+    <br/>
+    %= password_field 'pass1', placeholder => 'Retype password'
+    <br/>
+    %= submit_button 'S\'enregistrer', class => 'btn btn-success'
+  % end
+  <br/><br/>
+  <a href="/">Se connecter</a>
+

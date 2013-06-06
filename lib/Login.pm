@@ -15,6 +15,10 @@ sub startup {
 
   $r->get('/l/:id')->to('login#decode');
 
+  $r->any('/register')->to('login#register')->name('register');
+
+  $r->any('/registered')->to('login#registered');
+
   $r->any('/')->to('login#index')->name('index');
 
   my $logged_in = $r->under->to('login#logged_in');
